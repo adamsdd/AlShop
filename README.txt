@@ -1,3 +1,3 @@
-Created by Adamsdd
+Created by Adamsdd - Dawid Adamczyk
 
-Bootstrap + Spring App
+Angular - Bootstrap + Spring Boot App
