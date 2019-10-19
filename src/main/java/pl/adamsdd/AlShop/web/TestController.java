@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pl.adamsdd.AlShop.domain.Alcohol;
+import pl.adamsdd.AlShop.domain.alcohol.Alcohol;
 
 @Controller
 public class TestController {
@@ -17,6 +17,6 @@ public class TestController {
     @GetMapping(value = "/item", produces="application/json")
     @ResponseBody
     public Alcohol getItem() {
-        return new Alcohol(1L, "Browar");
+        return new Alcohol(1L, "Browar", "opis", new byte[0]);
     }
 }
