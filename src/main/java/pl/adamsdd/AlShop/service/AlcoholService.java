@@ -1,5 +1,6 @@
 package pl.adamsdd.AlShop.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import pl.adamsdd.AlShop.domain.alcohol.Alcohol;
@@ -12,6 +13,7 @@ public class AlcoholService {
 
     private final AlcoholRepository repository;
 
+    @Autowired
     public AlcoholService(AlcoholRepository repository) {
         this.repository = repository;
     }
@@ -26,6 +28,12 @@ public class AlcoholService {
         Assert.notNull(id, "Id cannot be null");
 
         return repository.save(alcohol);
+    }
+
+    public void delete(Long id) {
+        Alcohol savedAlcohol = getAlcohol(id);
+
+        repository.delete(savedAlcohol);
     }
 
     public List<Alcohol> getAll() {
