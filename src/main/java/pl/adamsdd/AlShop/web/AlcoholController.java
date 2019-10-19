@@ -1,23 +1,39 @@
 package pl.adamsdd.AlShop.web;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import pl.adamsdd.AlShop.domain.Alcohol;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import pl.adamsdd.AlShop.domain.alcohol.Alcohol;
+import pl.adamsdd.AlShop.service.AlcoholService;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@RestController("/alcohol")
+@RestController
 public class AlcoholController {
 
-    @GetMapping
-    public List<Alcohol> getAll() {
-        List<Alcohol> alcoholList = new ArrayList<>();
-        alcoholList.add(new Alcohol(1L, "Piwo"));
-        alcoholList.add(new Alcohol(2L, "Wino"));
-        alcoholList.add(new Alcohol(3L, "Gówno"));
+    private final AlcoholService service;
 
-        return alcoholList;
+    @Autowired
+    public AlcoholController(AlcoholService service) {
+        this.service = service;
+    }
+
+    @GetMapping("/alcohols")
+    public List<Alcohol> getAllWithImages() {
+        return service.getAll();
+    }
+
+    @GetMapping("/alcohol/{id}")
+    public Alcohol getAlcohol(@RequestParam Long id) {
+        return service.getAlcohol(id);
+    }
+
+    @PostMapping("/alcohol")
+    public Alcohol addNew(Alcohol alcohol) {
+        return service.save(alcohol);
+    }
+
+    @PutMapping("/alcohol/{id}")
+    public Alcohol update(@RequestParam Long id, @RequestBody Alcohol alcohol) {
+        return service.update(id, alcohol);
     }
 }
