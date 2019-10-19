@@ -1,3 +1,3 @@
 Created by Adamsdd
 
-Bootstrap + Spring App
+Angular - Bootstrap + Spring Boot App
