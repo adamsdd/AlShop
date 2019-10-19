@@ -1,5 +1,7 @@
 package pl.adamsdd.AlShop.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import javax.persistence.*;
 
 @Entity
