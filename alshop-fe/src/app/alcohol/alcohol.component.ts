@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { AlcoholService } from "../shared";
+import {AlcoholService} from "../shared";
 import {Alcohol} from "../domain/Alcohol";
 import {FormBuilder} from "@angular/forms";
-
+import {NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-alcohol',
@@ -11,19 +11,27 @@ import {FormBuilder} from "@angular/forms";
 })
 export class AlcoholComponent implements OnInit {
 
+  title = 'ng-bootstrap-modal-demo';
+  closeResult: string;
   @Input()
   newAlcohol: Alcohol;
   alcohols: Array<Alcohol>;
   private form;
+  modalOptions:NgbModalOptions;
 
   constructor(private alcoholService: AlcoholService,
-              private formBuilder: FormBuilder) {
-  this.form = this.formBuilder.group({
-    name: '',
-    description: '',
-    image: File =  null
-  });
-}
+              private formBuilder: FormBuilder,
+              private modalService: NgbModal) {
+    this.form = this.formBuilder.group({
+      name: '',
+      description: '',
+      image: File = null
+    });
+    this.modalOptions = {
+      backdrop:'static',
+      backdropClass:'customBackdrop'
+    };
+  }
 
   ngOnInit() {
     this.refresh();
@@ -39,19 +47,43 @@ export class AlcoholComponent implements OnInit {
     )
   }
 
-  onSubmit(alcoholData) {
-    console.warn('Your alcohol has been submitted', alcoholData);
-
-    console.log("data = " + alcoholData);
-    console.log("keys = " + Object.keys(alcoholData));
+  onSubmit(alcoholData, modal) {
     this.alcoholService.save(alcoholData).subscribe(data => {
-      console.log(data['_body']);
-      console.log("Saved descr = " + data.description);
+      modal.close('Save click')
       this.refresh();
       this.form.reset();
     }, error => {
       console.log(error);
     });
+  }
 
+  open(content) {
+    this.modalService.open(content, this.modalOptions).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
+  closeModal(modal) {
+    this.form.reset();
+    modal.close('Close');
+  }
+
+  deleteAlcohol(alcohol: Alcohol) {
+    console.log("REMOVE!");
+    this.alcoholService.delete(alcohol).subscribe(data => {
+      this.refresh();
+    });
   }
 }

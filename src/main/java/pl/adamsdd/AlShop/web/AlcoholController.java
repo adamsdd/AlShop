@@ -23,7 +23,7 @@ public class AlcoholController {
     }
 
     @GetMapping("/alcohol/{id}")
-    public Alcohol getAlcohol(@RequestParam Long id) {
+    public Alcohol getAlcohol(@PathVariable Long id) {
         return service.getAlcohol(id);
     }
 
@@ -33,7 +33,12 @@ public class AlcoholController {
     }
 
     @PutMapping("/alcohol/{id}")
-    public Alcohol update(@RequestParam Long id, @RequestBody Alcohol alcohol) {
+    public Alcohol update(@PathVariable Long id, @RequestBody Alcohol alcohol) {
         return service.update(id, alcohol);
+    }
+
+    @DeleteMapping("/alcohol/{id}")
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 }

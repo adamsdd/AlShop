@@ -8,18 +8,21 @@ import {Alcohol} from "../../domain/Alcohol";
 })
 export class AlcoholService {
 
-  private mainPath: string = 'http://localhost:60069/alcohols';
-  private savePath: string = 'http://localhost:60069/alcohol';
+  private listPath: string = 'http://localhost:60069/alcohols';
+  private singlePath: string = 'http://localhost:60069/alcohol';
 
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<any> {
-    return this.http.get<any>(this.mainPath);
+    return this.http.get<any>(this.listPath);
   }
 
   save(alcoholData: Alcohol): Observable<any> {
     console.log("AlcoholData.name from servis = " + alcoholData.name);
-    return this.http.post(this.savePath, alcoholData)
+    return this.http.post(this.singlePath, alcoholData)
   }
 
+  delete(alcohol: Alcohol): Observable<any> {
+    return this.http.delete(this.singlePath + "/" + alcohol.id);
+  }Your
 }

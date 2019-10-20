@@ -6,11 +6,20 @@ import { AppComponent } from './app.component';
 import { AlcoholComponent } from './alcohol/alcohol.component';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { NavbarComponent } from './navbar/navbar.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AlertComponent } from './alert/alert.component';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlcoholComponent,
+    NavbarComponent,
+    AlertComponent,
+    HomeComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
@@ -18,8 +27,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
