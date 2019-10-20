@@ -36,7 +36,7 @@ class AlcoholIntegrationTest extends Specification {
         savedAlcohol == newAlcohol
     }
 
-    void "Should update exist alcohol"() {
+    void "Should update existing alcohol"() {
         given: "existing alcohol in database"
         Alcohol savedAlcohol = service.getAlcohol(ALCOHOL_ID)
         and:
@@ -51,7 +51,7 @@ class AlcoholIntegrationTest extends Specification {
         oldAlcoholName != updatedAlcohol.name
     }
 
-    void "Should delete exist alcohol"() {
+    void "Should delete existing alcohol"() {
         given: "existing alcohol in database"
         Alcohol savedAlcohol = service.getAlcohol(ALCOHOL_ID)
         and: "saved alcohol id"

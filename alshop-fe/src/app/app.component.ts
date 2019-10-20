@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Alcohol} from "./domain/Alcohol";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'alshop-fe';
+
+  public newAlcohol: Alcohol;
+
+  addedNewAlcohol(alcohol: Alcohol) {
+    this.newAlcohol= alcohol;
+  }
+
 }

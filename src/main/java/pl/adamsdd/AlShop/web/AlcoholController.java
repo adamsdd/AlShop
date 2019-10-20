@@ -28,7 +28,7 @@ public class AlcoholController {
     }
 
     @PostMapping("/alcohol")
-    public Alcohol addNew(Alcohol alcohol) {
+    public Alcohol addNew(@RequestBody Alcohol alcohol) {
         return service.save(alcohol);
     }
 
