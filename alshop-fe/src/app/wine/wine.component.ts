@@ -1,25 +1,26 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AlcoholService} from "../shared";
-import {Alcohol} from "../domain/alcohol/Alcohol";
+import {Beer} from "../domain/alcohol/Beer";
+import {ModalDismissReasons, NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
 import {FormBuilder} from "@angular/forms";
-import {NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import {WineService} from "../shared/wine/wine.service";
+import {Wine} from "../domain/alcohol/Wine";
 
 @Component({
-  selector: 'app-alcohol',
-  templateUrl: './alcohol.component.html',
-  styleUrls: ['./alcohol.component.css']
+  selector: 'app-wine',
+  templateUrl: './wine.component.html',
+  styleUrls: ['./wine.component.css']
 })
-export class AlcoholComponent implements OnInit {
+export class WineComponent implements OnInit {
 
   title = 'ng-bootstrap-modal-demo';
   closeResult: string;
   @Input()
-  newAlcohol: Alcohol;
-  alcohols: Array<Alcohol>;
+  newAlcohol: Wine;
+  alcohols: Array<Wine>;
   private form;
-  modalOptions:NgbModalOptions;
+  modalOptions: NgbModalOptions;
 
-  constructor(private alcoholService: AlcoholService,
+  constructor(private wineService: WineService,
               private formBuilder: FormBuilder,
               private modalService: NgbModal) {
     this.form = this.formBuilder.group({
@@ -34,11 +35,12 @@ export class AlcoholComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("GET WINES!");
     this.refresh();
   }
 
   refresh() {
-    this.alcoholService.getAll().subscribe(
+    this.wineService.getAll().subscribe(
       data => {
         this.alcohols = data;
         console.log(this.alcohols);
@@ -48,7 +50,7 @@ export class AlcoholComponent implements OnInit {
   }
 
   onSubmit(alcoholData, modal) {
-    this.alcoholService.save(alcoholData).subscribe(data => {
+    this.wineService.save(alcoholData).subscribe(data => {
       modal.close('Save click')
       this.refresh();
       this.form.reset();
@@ -80,9 +82,9 @@ export class AlcoholComponent implements OnInit {
     modal.close('Close');
   }
 
-  deleteAlcohol(alcohol: Alcohol) {
+  deleteAlcohol(wine: Wine) {
     console.log("REMOVE!");
-    this.alcoholService.delete(alcohol).subscribe(data => {
+    this.wineService.delete(wine).subscribe(data => {
       this.refresh();
     });
   }

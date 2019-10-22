@@ -1,25 +1,25 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AlcoholService} from "../shared";
-import {Alcohol} from "../domain/alcohol/Alcohol";
+import {ModalDismissReasons, NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
 import {FormBuilder} from "@angular/forms";
-import {NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import {Beer} from "../domain/alcohol/Beer";
+import {BeerService} from "../shared/beer/beer.service";
 
 @Component({
-  selector: 'app-alcohol',
-  templateUrl: './alcohol.component.html',
-  styleUrls: ['./alcohol.component.css']
+  selector: 'app-beer',
+  templateUrl: './beer.component.html',
+  styleUrls: ['./beer.component.css']
 })
-export class AlcoholComponent implements OnInit {
+export class BeerComponent implements OnInit {
 
   title = 'ng-bootstrap-modal-demo';
   closeResult: string;
   @Input()
-  newAlcohol: Alcohol;
-  alcohols: Array<Alcohol>;
+  newAlcohol: Beer;
+  alcohols: Array<Beer>;
   private form;
-  modalOptions:NgbModalOptions;
+  modalOptions: NgbModalOptions;
 
-  constructor(private alcoholService: AlcoholService,
+  constructor(private beerService: BeerService,
               private formBuilder: FormBuilder,
               private modalService: NgbModal) {
     this.form = this.formBuilder.group({
@@ -38,7 +38,7 @@ export class AlcoholComponent implements OnInit {
   }
 
   refresh() {
-    this.alcoholService.getAll().subscribe(
+    this.beerService.getAll().subscribe(
       data => {
         this.alcohols = data;
         console.log(this.alcohols);
@@ -48,7 +48,7 @@ export class AlcoholComponent implements OnInit {
   }
 
   onSubmit(alcoholData, modal) {
-    this.alcoholService.save(alcoholData).subscribe(data => {
+    this.beerService.save(alcoholData).subscribe(data => {
       modal.close('Save click')
       this.refresh();
       this.form.reset();
@@ -80,9 +80,9 @@ export class AlcoholComponent implements OnInit {
     modal.close('Close');
   }
 
-  deleteAlcohol(alcohol: Alcohol) {
+  deleteAlcohol(beer: Beer) {
     console.log("REMOVE!");
-    this.alcoholService.delete(alcohol).subscribe(data => {
+    this.beerService.delete(beer).subscribe(data => {
       this.refresh();
     });
   }

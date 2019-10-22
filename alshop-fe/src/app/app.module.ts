@@ -11,6 +11,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AlertComponent } from './alert/alert.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
+import { LoginComponent } from './login/login.component';
+import { BeerComponent } from './beer/beer.component';
+import { WineComponent } from './wine/wine.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,9 @@ import { AboutComponent } from './about/about.component';
     AlertComponent,
     HomeComponent,
     AboutComponent,
+    LoginComponent,
+    BeerComponent,
+    WineComponent,
   ],
   imports: [
     BrowserModule,

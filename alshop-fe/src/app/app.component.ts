@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Alcohol} from "./domain/Alcohol";
+import {Alcohol} from "./domain/alcohol/Alcohol";
 
 @Component({
   selector: 'app-root',

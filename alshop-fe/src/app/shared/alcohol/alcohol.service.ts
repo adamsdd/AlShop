@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {Alcohol} from "../../domain/Alcohol";
+import {Alcohol} from "../../domain/alcohol/Alcohol";
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +24,5 @@ export class AlcoholService {
 
   delete(alcohol: Alcohol): Observable<any> {
     return this.http.delete(this.singlePath + "/" + alcohol.id);
-  }Your
+  }
 }

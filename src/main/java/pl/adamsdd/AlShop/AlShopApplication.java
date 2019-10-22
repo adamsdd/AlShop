@@ -4,8 +4,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import pl.adamsdd.AlShop.domain.alcohol.Alcohol;
-import pl.adamsdd.AlShop.repository.AlcoholRepository;
+import pl.adamsdd.AlShop.domain.alcohol.Beer;
+import pl.adamsdd.AlShop.domain.alcohol.BeerType;
+import pl.adamsdd.AlShop.repository.alcohol.BeerRepository;
 
 import java.util.stream.Stream;
 
@@ -17,11 +18,11 @@ public class AlShopApplication {
 	}
 
 	@Bean
-	CommandLineRunner commandLineRunner(AlcoholRepository repository) {
+	CommandLineRunner commandLineRunner(BeerRepository repository) {
 		return args -> {
 			Stream.of("John", "Julie", "Jennifer", "Helen", "Rachel").forEach(name -> {
-				Alcohol user = new Alcohol(null, name, name, new byte[0]);
-				repository.save(user);
+				Beer beer = new Beer(null, name, name, null, null, null, null, new byte[0], BeerType.LAGER);
+				repository.save(beer);
 			});
 
 			repository.findAll().forEach(System.out::println);

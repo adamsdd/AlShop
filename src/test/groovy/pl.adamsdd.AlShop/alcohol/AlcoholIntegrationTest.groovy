@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import pl.adamsdd.AlShop.AlShopApplication
 import pl.adamsdd.AlShop.domain.alcohol.Alcohol
-import pl.adamsdd.AlShop.service.AlcoholService
+import pl.adamsdd.AlShop.service.alcohol.AlcoholService
 import spock.lang.Specification
 import spock.lang.Stepwise
 
