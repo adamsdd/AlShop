@@ -1,7 +1,71 @@
-<p>alcohol works!</p>
-
 <h2>Alcohol list</h2>
 
-<div *ngFor="let alc of alcohols">
-  {{alc.name}}
-</div>
+<button type="button" class="btn btn-primary" (click)="open(mymodal)">
+  <span class="fas fa-plus"> Add</span>
+</button>
+<table class="table border">
+  <thead>
+  <tr>
+    <th scope="col"></th>
+    <th scope="col">Id</th>
+    <th scope="col">Name</th>
+    <th scope="col">Description</th>
+    <th scope="col">Image</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let alcohol of alcohols">
+    <th scope="row" width="7%">
+      <button type="button" class="btn btn-info">
+        <span class="fas fa-edit"></span>
+      </button>
+      <button type="button" class="btn btn-danger" (click)="deleteAlcohol(alcohol)">
+        <span class="fas fa-trash"></span>
+      </button>
+    </th>
+    <th scope="row">{{alcohol.id}}</th>
+    <th scope="row">{{alcohol.name}}</th>
+    <th scope="row">{{alcohol.description}}</th>
+    <th scope="row">{{alcohol.image}}</th>
+  </tr>
+  </tbody>
+</table>
+
+
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add new alcohol</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form class="form-group" [formGroup]="form" (ngSubmit)="onSubmit(form.value, modal)">
+  <div class="modal-body">
+      <div>
+        <label for="name">
+          Name
+        </label>
+        <input class="form-control" id="name" type="text" formControlName="name">
+      </div>
+
+      <div>
+        <label for="description">
+          Description
+        </label>
+        <textarea rows="5" cols="20" class="form-control" id="description" type="text"
+                  formControlName="description"></textarea>
+      </div>
+
+      <div>
+        <label for="image">
+          Image
+        </label>
+        <input class="form-control" id="image" formControlName="image" type="file" accept="image/*">
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="closeModal(modal)">Close</button>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </div>
+  </form>
+</ng-template>
