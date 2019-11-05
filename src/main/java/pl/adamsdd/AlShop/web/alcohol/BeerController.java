@@ -3,6 +3,7 @@ package pl.adamsdd.AlShop.web.alcohol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.adamsdd.AlShop.domain.alcohol.Beer;
+import pl.adamsdd.AlShop.domain.alcohol.BeerType;
 import pl.adamsdd.AlShop.service.alcohol.BeerService;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class BeerController {
         return service.getAlcohol(id);
     }
 
-    @PostMapping("/beer")
+    @PostMapping(value = "/beer", consumes = {"application/json"})
     public void addNew(@RequestBody Beer Beer) {
         service.save(Beer);
     }
@@ -40,5 +41,10 @@ public class BeerController {
     @DeleteMapping("/beer/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);
+    }
+
+    @GetMapping("/beer-types")
+    public List<BeerType> getBeerTypes() {
+        return service.getBeerTypes();
     }
 }

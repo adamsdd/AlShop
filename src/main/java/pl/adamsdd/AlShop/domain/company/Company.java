@@ -2,10 +2,7 @@ package pl.adamsdd.AlShop.domain.company;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -13,21 +10,27 @@ import java.util.Objects;
 public class Company {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "companySEQ", sequenceName = "companySEQ", allocationSize = 10000)
+    @GeneratedValue(generator = "companySEQ")
     public Long id;
 
     public String name;
     public String country;
     public String city;
     public String postCode;
+    @Enumerated(EnumType.STRING)
     public PreferContactForm preferContactForm;
     public String contactNumber;
     public String mail;
     public LocalDate dateFrom;
     public LocalDate dateTo;
 
+    public Company() {
+    }
+
     @JsonCreator
-    public Company(Long id, String name, String country, String city, String postCode, PreferContactForm preferContactForm, String contactNumber, String mail, LocalDate dateFrom, LocalDate dateTo) {
+    public Company(Long id, String name, String country, String city, String postCode, PreferContactForm preferContactForm,
+                   String contactNumber, String mail, LocalDate dateFrom, LocalDate dateTo) {
         this.id = id;
         this.name = name;
         this.country = country;

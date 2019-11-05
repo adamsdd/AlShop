@@ -21,7 +21,7 @@ public class Wine extends Alcohol {
     }
 
     @JsonCreator
-    public Wine(Long id, String name, String description, String country, String city, Company company, BigDecimal rate, byte[] image, WineType wineType) {
+    public Wine(Long id, String name, String description, String country, String city, Company company, BigDecimal rate, String image, WineType wineType) {
         super(id, name, description, country, city, company, rate, image);
         this.wineType = wineType;
     }
@@ -51,7 +51,6 @@ public class Wine extends Alcohol {
                 ", city='" + city + '\'' +
                 ", company=" + company +
                 ", rate=" + rate +
-                ", image=" + Arrays.toString(image) +
                 '}';
     }
 }

@@ -8,5 +8,5 @@ export class Alcohol {
   public city: string;
   public company: Company;
   public rate: Number;
-  public image: File;
+  public image: string;
 }

@@ -1,8 +1,10 @@
 package pl.adamsdd.AlShop.web.alcohol;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pl.adamsdd.AlShop.domain.alcohol.Wine;
+import pl.adamsdd.AlShop.domain.alcohol.WineType;
 import pl.adamsdd.AlShop.service.alcohol.WineService;
 
 import java.util.List;
@@ -27,7 +29,7 @@ public class WineController {
         return service.getAlcohol(id);
     }
 
-    @PostMapping("/wine")
+    @PostMapping(value = "/wine", produces = "application/json", consumes = "application/json")
     public void addNew(@RequestBody Wine wine) {
         service.save(wine);
     }
@@ -40,5 +42,10 @@ public class WineController {
     @DeleteMapping("/wine/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);
+    }
+
+    @GetMapping("/wine-types")
+    public List<WineType> getWineTypes() {
+        return service.getWineTypes();
     }
 }

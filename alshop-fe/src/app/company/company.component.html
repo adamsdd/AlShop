@@ -1,0 +1,186 @@
+<h2>Company list</h2>
+
+<button type="button" class="btn btn-primary" (click)="open(addModal)">
+  <span class="fas fa-plus"> Add</span>
+</button>
+<table class="table border">
+  <thead>
+  <tr>
+    <th scope="col"></th>
+    <th scope="col">Id</th>
+    <th scope="col">Name</th>
+    <th scope="col">Country</th>
+    <th scope="col">City</th>
+    <th scope="col">Post Code</th>
+    <th scope="col">Prefer Contact Form</th>
+    <th scope="col">Contact number</th>
+    <th scope="col">Mail</th>
+    <th scope="col">Date From</th>
+    <th scope="col">Date to</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let company of companies">
+    <th scope="row" width="7%">
+      <button type="button" class="btn btn-info">
+        <span class="fas fa-edit"></span>
+      </button>
+      <button type="button" class="btn btn-danger" (click)="delete(company)">
+        <span class="fas fa-trash"></span>
+      </button>
+    </th>
+    <th scope="row">{{company.id}}</th>
+    <th scope="row">{{company.name}}</th>
+    <th scope="row">{{company.country}}</th>
+    <th scope="row">{{company.city}}</th>
+    <th scope="row">{{company.postCode}}</th>
+    <th scope="row">{{company.preferContactForm}}</th>
+    <th scope="row">{{company.contactNumber}}</th>
+    <th scope="row">{{company.mail}}</th>
+    <th scope="row">{{company.dateFrom}}</th>
+    <th scope="row">{{company.dateTo}}</th>
+  </tr>
+  </tbody>
+</table>
+<form class="form-inline">
+  <div class="form-group">
+    <div class="input-group">
+      <input class="form-control" placeholder="yyyy-mm-dd"
+             name="dp" [(ngModel)]="testDate" ngbDatepicker #d="ngbDatepicker">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary calendar far fa-calendar-alt" (click)="d.toggle()" type="button"></button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ng-template #addModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add new company</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form class="form-group" [formGroup]="form" (ngSubmit)="onSubmit(form.value, modal)">
+    <div class="modal-body">
+      <div>
+        <label for="name">
+          Name
+        </label>
+        <input class="form-control" id="name" type="text" formControlName="name">
+      </div>
+      <div>
+        <label for="country">
+          Country
+        </label>
+        <input class="form-control" id="country" type="text" formControlName="country">
+      </div>
+      <div>
+        <label for="city">
+          City
+        </label>
+        <input class="form-control" id="city" type="text" formControlName="city">
+      </div>
+      <div>
+        <label for="postCode">
+          Post Code
+        </label>
+        <input class="form-control" id="postCode" type="text" formControlName="postCode">
+      </div>
+      <div>
+        <label>
+          Prefer contact form
+        </label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="preferContactForm" id="number" value="NUMBER" checked formControlName="preferContactForm">
+          <label class="form-check-label" for="number">
+            Number
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="preferContactForm" id="mail" value="mail" formControlName="preferContactForm">
+          <label class="form-check-label" for="mail">
+            Mail
+          </label>
+        </div>
+      </div>
+      <div>
+        <label for="contactNumber">
+          Contact number
+        </label>
+        <input class="form-control" id="contactNumber" type="text" formControlName="contactNumber">
+      </div>
+      <div>
+        <label for="email">
+          Mail
+        </label>
+        <input class="form-control" id="email" type="text" formControlName="mail">
+      </div>
+      <div>
+        <label for="dateFrom">
+          Date From
+        </label>
+        <form class="form-inline">
+          <div class="form-group" [formGroup]="form">
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-MM-dd" id="dateFrom" formControlName="dateFrom"
+                     name="dp" ngbDatepicker #dateFrom="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar far fa-calendar-alt" (click)="dateFrom.toggle()" type="button"></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div>
+        <label for="dateTo">
+          Date To
+        </label>
+        <form class="form-inline">
+          <div class="form-group">
+            <div class="input-group" [formGroup]="form">
+              <input class="form-control" placeholder="yyyy-MM-dd" id="dateTo" formControlName="dateTo"
+                     name="dp" ngbDatepicker #dateTo="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar far fa-calendar-alt" (click)="dateTo.toggle()" type="button"></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!--<div>-->
+        <!--<label for="dateFrom">-->
+          <!--Date From-->
+        <!--</label>-->
+        <!--<input class="form-control" placeholder="yyyy-mm-dd" id="dateFrom"-->
+               <!--name="dp" [(ngModel)]="dateFrom" ngbDatepicker #d="ngbDatepicker">-->
+        <!--<div class="input-group-append">-->
+          <!--<button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;<input class="form-control" id="dateFrom" type="text" ngbDatepicker #dFrom="ngbDatepicker" formControlName="dateFrom">&ndash;&gt;-->
+        <!--&lt;!&ndash;<button (click)="dFrom.toggle()">Toggle</button>&ndash;&gt;-->
+      <!--</div>-->
+      <!--<div>-->
+        <!--<input type="text" datepicker="" />-->
+        <!--&lt;!&ndash;<ngb-datepicker #dp (navigate)="date = $event.next"></ngb-datepicker>&ndash;&gt;-->
+      <!--</div>-->
+      <!--<div class="md-form">-->
+        <!--<input placeholder="Selected date" type="text" id="date-picker-example" class="form-control datepicker">-->
+        <!--<label for="date-picker-example">Try me...</label>-->
+      <!--</div>-->
+      <!--<div>-->
+        <!--<label for="dateTo">-->
+          <!--Date To-->
+        <!--</label>-->
+        <!--<input class="form-control" id="dateTo" type="text" ngbDatepicker #dTo="ngbDatepicker" formControlName="dateTo">-->
+        <!--<button (click)="dTo.toggle()">Toggle</button>-->
+      <!--</div>-->
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="closeModal(modal)">Close</button>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+  </form>
+</ng-template>

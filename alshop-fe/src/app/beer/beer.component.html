@@ -1,6 +1,6 @@
 <h2>Beer list</h2>
 
-<button type="button" class="btn btn-primary" (click)="open(mymodal)">
+<button type="button" class="btn btn-primary" (click)="open(addModal)">
   <span class="fas fa-plus"> Add</span>
 </button>
 <table class="table border">
@@ -11,13 +11,16 @@
     <th scope="col">Name</th>
     <th scope="col">Type</th>
     <th scope="col">Company</th>
+    <th scope="col">Country</th>
+    <th scope="col">City</th>
+    <th scope="col">Rate</th>
     <th scope="col">Image</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let alcohol of alcohols">
     <th scope="row" width="7%">
-      <button type="button" class="btn btn-info">
+      <button type="button" class="btn btn-info" (click)="edit(addModal, alcohol)">
         <span class="fas fa-edit"></span>
       </button>
       <button type="button" class="btn btn-danger" (click)="deleteAlcohol(alcohol)">
@@ -26,17 +29,19 @@
     </th>
     <th scope="row">{{alcohol.id}}</th>
     <th scope="row">{{alcohol.name}}</th>
-    <th scope="row">{{alcohol.beerType}}</th>
-    <th scope="row">{{alcohol.company}}</th>
-    <th scope="row">{{alcohol.image}}</th>
+    <th scope="row">{{convertEnumToString(alcohol.beerType) | titlecase}}</th>
+    <th scope="row">{{alcohol.company.name}}</th>
+    <th scope="row">{{alcohol.country}}</th>
+    <th scope="row">{{alcohol.city}}</th>
+    <th scope="row">{{alcohol.rate}}</th>
+    <th scope="row"><img [src]="alcohol.image ? alcohol.image : 'assets/favicon.png'" class="img-thumbnail"/></th>
   </tr>
   </tbody>
 </table>
 
-
-<ng-template #mymodal let-modal>
+<ng-template #addModal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Add new alcohol</h4>
+    <h4 class="modal-title" id="modal-basic-title">Beer</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -49,7 +54,6 @@
         </label>
         <input class="form-control" id="name" type="text" formControlName="name">
       </div>
-
       <div>
         <label for="description">
           Description
@@ -57,13 +61,51 @@
         <textarea rows="5" cols="20" class="form-control" id="description" type="text"
                   formControlName="description"></textarea>
       </div>
-
+      <div>
+        <label for="company">
+          Company
+        </label>
+        <select class="browser-default custom-select" formControlName="company" id="company">
+          <option *ngFor="let company of companies" [ngValue]="company">
+            {{company.name}}
+          </option>
+        </select>
+      </div>
+      <div>
+        <label for="beerType">
+          Beer Type
+        </label>
+        <select class="browser-default custom-select" formControlName="beerType" id="beerType">
+          <option *ngFor="let type of beerTypes" [value]="type">
+            {{convertEnumToString(type) | titlecase}}
+          </option>
+        </select>
+      </div>
+      <div>
+        <label for="country">
+          Country
+        </label>
+        <input class="form-control" id="country" type="text" formControlName="country">
+      </div>
+      <div>
+        <label for="city">
+          City
+        </label>
+        <input class="form-control" id="city" type="text" formControlName="city">
+      </div>
+      <div>
+        <label for="rate">
+          Rate
+        </label>
+        <input class="form-control" id="rate" type="number" formControlName="rate">
+      </div>
       <div>
         <label for="image">
           Image
         </label>
-        <input class="form-control" id="image" formControlName="image" type="file" accept="image/*">
+        <input class="form-control" id="image" formControlName="image" type="file" accept="image/*" (change)="onFileChanged($event)">
       </div>
+
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-danger" (click)="closeModal(modal)">Close</button>

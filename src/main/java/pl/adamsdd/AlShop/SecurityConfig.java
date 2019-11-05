@@ -9,13 +9,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.inMemoryAuthentication()
-                .withUser("admin").password("admin").authorities("ROLE_USER", "ROLE_ADMIN")
-                .and()
-                .withUser("user").password("user").authorities("ROLE_USER");
-    }
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+//        authenticationManagerBuilder.inMemoryAuthentication()
+//                .withUser("admin").password("admin").authorities("ROLE_USER", "ROLE_ADMIN")
+//                .and()
+//                .withUser("user").password("user").authorities("ROLE_USER");
+//    }
 
 
     @Override

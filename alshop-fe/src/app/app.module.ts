@@ -14,6 +14,8 @@ import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { BeerComponent } from './beer/beer.component';
 import { WineComponent } from './wine/wine.component';
+import { CompanyComponent } from './company/company.component';
+import {DatePipe} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { WineComponent } from './wine/wine.component';
     LoginComponent,
     BeerComponent,
     WineComponent,
+    CompanyComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,7 @@ import { WineComponent } from './wine/wine.component';
     ReactiveFormsModule,
     NgbModule,
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -5,6 +5,7 @@ import {AboutComponent} from "./about/about.component";
 import {AlcoholComponent} from "./alcohol/alcohol.component";
 import {BeerComponent} from "./beer/beer.component";
 import {WineComponent} from "./wine/wine.component";
+import {CompanyComponent} from "./company/company.component";
 
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
   {path: 'about', component: AboutComponent},
   {path: 'beer', component: BeerComponent},
   {path: 'wine', component: WineComponent},
+  {path: 'companies', component: CompanyComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'}
 ];
 

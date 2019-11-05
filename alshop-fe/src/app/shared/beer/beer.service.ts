@@ -9,6 +9,7 @@ import {Beer} from "../../domain/alcohol/Beer";
 export class BeerService {
   private listPath: string = 'http://localhost:60069/beers';
   private singlePath: string = 'http://localhost:60069/beer';
+  private typesPath: string = 'http://localhost:60069/beer-types';
 
   constructor(private http: HttpClient) {
   }
@@ -25,5 +26,9 @@ export class BeerService {
 
   delete(beer: Beer): Observable<any> {
     return this.http.delete(this.singlePath + "/" + beer.id);
+  }
+
+  getBeerTypes(): Observable<any> {
+    return this.http.get(this.typesPath);
   }
 }

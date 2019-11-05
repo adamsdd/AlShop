@@ -1,6 +1,8 @@
 package pl.adamsdd.AlShop.domain.alcohol;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import pl.adamsdd.AlShop.domain.company.Company;
 
 import javax.persistence.Entity;
@@ -20,7 +22,7 @@ public class Beer extends Alcohol {
     }
 
     @JsonCreator
-    public Beer(Long id, String name, String description, String country, String city, Company company, BigDecimal rate, byte[] image, BeerType beerType) {
+    public Beer(Long id, String name, String description, String country, String city, Company company, BigDecimal rate, String image, BeerType beerType) {
         super(id, name, description, country, city, company, rate, image);
         this.beerType = beerType;
     }
@@ -50,7 +52,6 @@ public class Beer extends Alcohol {
                 ", city='" + city + '\'' +
                 ", company=" + company +
                 ", rate=" + rate +
-                ", image=" + Arrays.toString(image) +
                 '}';
     }
 }

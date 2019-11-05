@@ -6,8 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import pl.adamsdd.AlShop.domain.alcohol.Beer;
 import pl.adamsdd.AlShop.domain.alcohol.BeerType;
+import pl.adamsdd.AlShop.domain.company.Company;
+import pl.adamsdd.AlShop.domain.company.PreferContactForm;
 import pl.adamsdd.AlShop.repository.alcohol.BeerRepository;
+import pl.adamsdd.AlShop.repository.company.CompanyRepository;
 
+import java.time.LocalDate;
 import java.util.stream.Stream;
 
 @SpringBootApplication
@@ -18,10 +22,13 @@ public class AlShopApplication {
 	}
 
 	@Bean
-	CommandLineRunner commandLineRunner(BeerRepository repository) {
+	CommandLineRunner commandLineRunner(BeerRepository repository, CompanyRepository companyRepository) {
 		return args -> {
+			Company company = new Company(1L, "CompanyName", "Poland", "Warsaw", "00-001", PreferContactForm.NUMBER, "666999333", "mail@company.pl", LocalDate.now(), LocalDate.now());
+			companyRepository.save(company);
+
 			Stream.of("John", "Julie", "Jennifer", "Helen", "Rachel").forEach(name -> {
-				Beer beer = new Beer(null, name, name, null, null, null, null, new byte[0], BeerType.LAGER);
+				Beer beer = new Beer(null, name, name, null, null, company, null, "", BeerType.AMERICAN_SOUR);
 				repository.save(beer);
 			});
 

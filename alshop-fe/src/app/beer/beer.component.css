@@ -1,0 +1,17 @@
+.table td {
+  text-align: center;
+}
+
+table,
+thead,
+tr,
+tbody,
+th,
+td {
+  text-align: center;
+}
+
+.img-thumbnail {
+  height:100px;
+  width:100px;
+}

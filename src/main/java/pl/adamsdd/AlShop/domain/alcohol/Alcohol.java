@@ -15,7 +15,8 @@ import java.util.Objects;
 public class Alcohol {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "alcoSEQ", sequenceName = "alcoSEQ", allocationSize = 10000)
+    @GeneratedValue(generator = "alcoSEQ")
     public Long id;
 
     public String name;
@@ -24,17 +25,17 @@ public class Alcohol {
     public String city;
 
     @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
     public Company company;
 
     public BigDecimal rate;
-    public byte[] image;
+    @Column(length = 5000000)
+    public String image;
 
     public Alcohol() {
     }
 
     @JsonCreator
-    public Alcohol(Long id, String name, String description, String country, String city, Company company, BigDecimal rate, byte[] image) {
+    public Alcohol(Long id, String name, String description, String country, String city, Company company, BigDecimal rate, String image) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -57,13 +58,13 @@ public class Alcohol {
                 Objects.equals(city, alcohol.city) &&
                 Objects.equals(company, alcohol.company) &&
                 Objects.equals(rate, alcohol.rate) &&
-                Arrays.equals(image, alcohol.image);
+                Objects.equals(image, alcohol.image);
     }
 
     @Override
     public int hashCode() {
         int result = Objects.hash(id, name, description, country, city, company, rate);
-        result = 31 * result + Arrays.hashCode(image);
+        result = 31 * result + Objects.hashCode(image);
         return result;
     }
 
@@ -77,7 +78,6 @@ public class Alcohol {
                 ", city='" + city + '\'' +
                 ", company=" + company +
                 ", rate=" + rate +
-                ", image=" + Arrays.toString(image) +
                 '}';
     }
 }
