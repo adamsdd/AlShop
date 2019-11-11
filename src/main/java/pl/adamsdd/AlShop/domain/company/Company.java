@@ -15,11 +15,14 @@ public class Company {
     public Long id;
 
     public String name;
+    public String bossName;
+    public String bossSecondName;
+    public String bossSurname;
     public String country;
     public String city;
     public String postCode;
     @Enumerated(EnumType.STRING)
-    public PreferContactForm preferContactForm;
+    public PreferredContactMethod preferredContactMethod;
     public String contactNumber;
     public String mail;
     public LocalDate dateFrom;
@@ -29,14 +32,17 @@ public class Company {
     }
 
     @JsonCreator
-    public Company(Long id, String name, String country, String city, String postCode, PreferContactForm preferContactForm,
+    public Company(Long id, String name, String bossName, String bossSecondName, String bossSurname, String country, String city, String postCode, PreferredContactMethod preferredContactMethod,
                    String contactNumber, String mail, LocalDate dateFrom, LocalDate dateTo) {
         this.id = id;
         this.name = name;
+        this.bossName = bossName;
+        this.bossSecondName = bossSecondName;
+        this.bossSurname = bossSurname;
         this.country = country;
         this.city = city;
         this.postCode = postCode;
-        this.preferContactForm = preferContactForm;
+        this.preferredContactMethod = preferredContactMethod;
         this.contactNumber = contactNumber;
         this.mail = mail;
         this.dateFrom = dateFrom;
@@ -53,7 +59,7 @@ public class Company {
                 Objects.equals(country, company.country) &&
                 Objects.equals(city, company.city) &&
                 Objects.equals(postCode, company.postCode) &&
-                preferContactForm == company.preferContactForm &&
+                preferredContactMethod == company.preferredContactMethod &&
                 Objects.equals(contactNumber, company.contactNumber) &&
                 Objects.equals(mail, company.mail) &&
                 Objects.equals(dateFrom, company.dateFrom) &&
@@ -62,7 +68,7 @@ public class Company {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, country, city, postCode, preferContactForm, contactNumber, mail, dateFrom, dateTo);
+        return Objects.hash(id, name, country, city, postCode, preferredContactMethod, contactNumber, mail, dateFrom, dateTo);
     }
 
     @Override
@@ -73,7 +79,7 @@ public class Company {
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", postCode='" + postCode + '\'' +
-                ", preferContactForm=" + preferContactForm +
+                ", PreferredContactMethod=" + preferredContactMethod +
                 ", contactNumber='" + contactNumber + '\'' +
                 ", mail='" + mail + '\'' +
                 ", dateFrom=" + dateFrom +

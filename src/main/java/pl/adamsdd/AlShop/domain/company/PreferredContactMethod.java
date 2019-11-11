@@ -1,6 +1,6 @@
 package pl.adamsdd.AlShop.domain.company;
 
-public enum PreferContactForm {
+public enum PreferredContactMethod {
     NUMBER,
     MAIL
 }

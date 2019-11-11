@@ -24,7 +24,7 @@ export class BeerComponent implements OnInit {
   modalOptions: NgbModalOptions;
   companies: Array<Company>;
   beerTypes: Array<string>;
-  private testImage;
+  private selectedImage;
 
   constructor(private beerService: BeerService,
               private formBuilder: FormBuilder,
@@ -41,14 +41,6 @@ export class BeerComponent implements OnInit {
       city: '',
       rate: null,
       image: File = null
-    });
-    this.editForm = this.formBuilder.group({
-      editId: '',
-      editName: '',
-      editDescription: '',
-      editImage: File = null,
-      editCompany: '',
-      editBeerType: ''
     });
     this.modalOptions = {
       backdrop: 'static',
@@ -81,11 +73,12 @@ export class BeerComponent implements OnInit {
   }
 
   onSubmit(alcoholData, modal) {
-    alcoholData.image = this.testImage;
+    alcoholData.image = this.selectedImage;
     this.beerService.save(alcoholData).subscribe(() => {
-      modal.close('Save click')
+      modal.close('Save click');
       this.refresh();
       this.form.reset();
+      this.selectedImage = null;
     }, error => {
       console.log(error);
     });
@@ -127,7 +120,7 @@ export class BeerComponent implements OnInit {
     let myReader: FileReader = new FileReader();
 
     myReader.onloadend = () => {
-      this.testImage = myReader.result;
+      this.selectedImage = myReader.result;
     };
     myReader.readAsDataURL(file);
   }

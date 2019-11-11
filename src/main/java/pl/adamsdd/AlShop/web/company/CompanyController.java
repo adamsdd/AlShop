@@ -3,6 +3,7 @@ package pl.adamsdd.AlShop.web.company;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.adamsdd.AlShop.domain.company.Company;
+import pl.adamsdd.AlShop.domain.company.PreferredContactMethod;
 import pl.adamsdd.AlShop.service.company.CompanyService;
 
 import java.util.List;
@@ -40,5 +41,10 @@ public class CompanyController {
     @DeleteMapping("/company/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);
+    }
+
+    @GetMapping("/company/contactMethods")
+    public List<PreferredContactMethod> getContactMethods() {
+        return service.getContactMethods();
     }
 }

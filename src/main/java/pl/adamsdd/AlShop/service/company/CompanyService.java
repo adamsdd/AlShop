@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import pl.adamsdd.AlShop.domain.company.Company;
+import pl.adamsdd.AlShop.domain.company.PreferredContactMethod;
 import pl.adamsdd.AlShop.repository.company.CompanyRepository;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -42,5 +44,9 @@ public class CompanyService {
 
     public Company getCompany(Long id) {
         return repository.findById(id).orElseThrow(() -> new IllegalStateException("Cannot find company with id = " + id));
+    }
+
+    public List<PreferredContactMethod> getContactMethods() {
+        return Arrays.asList(PreferredContactMethod.values());
     }
 }

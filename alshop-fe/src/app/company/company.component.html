@@ -9,10 +9,11 @@
     <th scope="col"></th>
     <th scope="col">Id</th>
     <th scope="col">Name</th>
+    <th scope="col">Boss Surname</th>
     <th scope="col">Country</th>
     <th scope="col">City</th>
     <th scope="col">Post Code</th>
-    <th scope="col">Prefer Contact Form</th>
+    <th scope="col">Preferred Contact Method</th>
     <th scope="col">Contact number</th>
     <th scope="col">Mail</th>
     <th scope="col">Date From</th>
@@ -32,10 +33,11 @@
     </th>
     <th scope="row">{{company.id}}</th>
     <th scope="row">{{company.name}}</th>
+    <th scope="row">{{company.bossSurname}}</th>
     <th scope="row">{{company.country}}</th>
     <th scope="row">{{company.city}}</th>
     <th scope="row">{{company.postCode}}</th>
-    <th scope="row">{{company.preferContactForm}}</th>
+    <th scope="row">{{company.preferredContactMethod}}</th>
     <th scope="row">{{company.contactNumber}}</th>
     <th scope="row">{{company.mail}}</th>
     <th scope="row">{{company.dateFrom}}</th>
@@ -43,17 +45,6 @@
   </tr>
   </tbody>
 </table>
-<form class="form-inline">
-  <div class="form-group">
-    <div class="input-group">
-      <input class="form-control" placeholder="yyyy-mm-dd"
-             name="dp" [(ngModel)]="testDate" ngbDatepicker #d="ngbDatepicker">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary calendar far fa-calendar-alt" (click)="d.toggle()" type="button"></button>
-      </div>
-    </div>
-  </div>
-</form>
 
 <ng-template #addModal let-modal>
   <div class="modal-header">
@@ -68,13 +59,53 @@
         <label for="name">
           Name
         </label>
-        <input class="form-control" id="name" type="text" formControlName="name">
+        <div *ngIf="submitted && form.controls.name.errors" class="top-invalid">
+          <div *ngIf="form.controls.name.errors.required">Name is required</div>
+          <div *ngIf="form.controls.name.errors.minlength">Minimum length is 3</div>
+        </div>
+        <input class="form-control" id="name" type="text" formControlName="name" autofocus [ngClass]="{ 'is-invalid': submitted && form.controls.name.errors }">
+      </div>
+      <div>
+        <label for="bossName">
+          Boss Name
+        </label>
+        <div *ngIf="submitted && form.controls.bossName.errors" class="top-invalid">
+          <div *ngIf="form.controls.bossName.errors.required">Boss Name is required</div>
+          <div *ngIf="form.controls.bossName.errors.minlength">Minimum length is 3</div>
+          <div *ngIf="form.controls.bossName.errors.pattern">Insert correct name (Only letters)</div>
+        </div>
+        <input class="form-control" id="bossName" type="text" formControlName="bossName" [ngClass]="{ 'is-invalid': submitted && form.controls.bossName.errors }">
+      </div>
+      <div>
+        <label for="bossSecondName">
+          Boss Second Name
+        </label>
+        <div *ngIf="submitted && form.controls.bossSecondName.errors" class="top-invalid">
+          <div *ngIf="form.controls.bossSecondName.errors.minlength">Minimum length is 3</div>
+          <div *ngIf="form.controls.bossSecondName.errors.pattern">Insert correct name (Only letters)</div>
+        </div>
+        <input class="form-control" id="bossSecondName" type="text" formControlName="bossSecondName" [ngClass]="{ 'is-invalid': submitted && form.controls.bossSecondName.errors }">
+      </div>
+      <div>
+        <label for="bossSurname">
+          Boss Surname
+        </label>
+        <div *ngIf="submitted && form.controls.bossSurname.errors" class="top-invalid">
+          <div *ngIf="form.controls.bossSurname.errors.required">Boss Surname is required</div>
+          <div *ngIf="form.controls.bossSurname.errors.minlength">Minimum length is 3</div>
+          <div *ngIf="form.controls.bossSurname.errors.pattern">Insert correct Surname (Letters and '-')</div>
+        </div>
+        <input class="form-control" id="bossSurname" type="text" formControlName="bossSurname" [ngClass]="{ 'is-invalid': submitted && form.controls.bossSurname.errors }">
       </div>
       <div>
         <label for="country">
           Country
         </label>
-        <input class="form-control" id="country" type="text" formControlName="country">
+        <div *ngIf="submitted && form.controls.country.errors" class="top-invalid">
+          <div *ngIf="form.controls.country.errors.required">Country is required</div>
+          <div *ngIf="form.controls.country.errors.minlength">Minimum length is 3</div>
+        </div>
+        <input class="form-control" id="country" type="text" formControlName="country" [ngClass]="{ 'is-invalid': submitted && form.controls.country.errors }">
       </div>
       <div>
         <label for="city">
@@ -90,45 +121,60 @@
       </div>
       <div>
         <label>
-          Prefer contact form
+        Prefer contact form
         </label>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="preferContactForm" id="number" value="NUMBER" checked formControlName="preferContactForm">
-          <label class="form-check-label" for="number">
-            Number
-          </label>
+        <div *ngIf="submitted && form.controls.preferredContactMethod.errors" class="top-invalid">
+          <div *ngIf="form.controls.preferredContactMethod.errors.required">Preferred Contact Method is required</div>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="preferContactForm" id="mail" value="mail" formControlName="preferContactForm">
-          <label class="form-check-label" for="mail">
-            Mail
-          </label>
-        </div>
+        <select class="browser-default custom-select" formControlName="preferredContactMethod" [ngClass]="{ 'is-invalid': submitted && form.controls.preferredContactMethod.errors }">
+          <option *ngFor="let contactMethod of contactMethods" [value]="contactMethod">
+            {{convertEnumToString(contactMethod) | titlecase}}
+          </option>
+        </select>
       </div>
       <div>
         <label for="contactNumber">
           Contact number
         </label>
-        <input class="form-control" id="contactNumber" type="text" formControlName="contactNumber">
+        <div *ngIf="submitted && form.controls.contactNumber.errors" class="top-invalid">
+          <div *ngIf="form.controls.contactNumber.errors.pattern">Insert number in format 'XXX XXX XXX'</div>
+        </div>
+        <input class="form-control" id="contactNumber" type="text" formControlName="contactNumber" [ngClass]="{ 'is-invalid': submitted && form.controls.contactNumber.errors }">
       </div>
       <div>
         <label for="email">
           Mail
         </label>
-        <input class="form-control" id="email" type="text" formControlName="mail">
+        <div *ngIf="submitted && form.controls.mail.errors" class="top-invalid">
+          <div *ngIf="form.controls.mail.errors.email">Insert correct email</div>
+        </div>
+        <input class="form-control" id="email" type="email" formControlName="mail" [ngClass]="{ 'is-invalid': submitted && form.controls.mail.errors}">
       </div>
       <div>
         <label for="dateFrom">
           Date From
         </label>
+        <div *ngIf="submitted && form.controls.dateFrom.errors" class="top-invalid">
+          <div *ngIf="form.controls.dateFrom.errors.required">Date From is required</div>
+          <!--<div *ngIf="!dateIsValid">Date From cannot be higher than Date To</div>-->
+        </div>
+        <!--<div *ngIf="error.isError" class="alert alert-danger">-->
+          <!--{{ error.errorMessage }}-->
+        <!--</div>-->
+        <div *ngIf="form.hasError('dateValidation')" class="top-invalid">
+          Date From cannot be higher than Date To
+        </div>
         <form class="form-inline">
-          <div class="form-group" [formGroup]="form">
+          <div class="form-group" [formGroup]="form" style="width:55%">
             <div class="input-group">
-              <input class="form-control" placeholder="yyyy-MM-dd" id="dateFrom" formControlName="dateFrom"
-                     name="dp" ngbDatepicker #dateFrom="ngbDatepicker">
+              <input class="form-control" placeholder="yyyy-MM-dd" id="dateFrom" formControlName="dateFrom" [ngClass]="{ 'is-invalid': (submitted && form.controls.dateFrom.errors) || form.hasError('dateValidation')}"
+                     name="dp" ngbDatepicker #dateFrom="ngbDatepicker" (blur)="compareTwoDates()">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar far fa-calendar-alt" (click)="dateFrom.toggle()" type="button"></button>
               </div>
+              <!--<div *ngIf="submitted && form.controls.dateFrom.errors" class="invalid-feedback">-->
+                <!--<div *ngIf="form.get('dateFrom').hasError('validationsPeriod')">Date From cannot be higher than Date To</div>-->
+              <!--</div>-->
             </div>
           </div>
         </form>
@@ -137,10 +183,13 @@
         <label for="dateTo">
           Date To
         </label>
+        <div *ngIf="submitted && form.controls.dateTo.errors" class="top-invalid">
+          <div *ngIf="form.controls.dateTo.errors.required">Date To is required</div>
+        </div>
         <form class="form-inline">
-          <div class="form-group">
+          <div class="form-group" style="width:55%">
             <div class="input-group" [formGroup]="form">
-              <input class="form-control" placeholder="yyyy-MM-dd" id="dateTo" formControlName="dateTo"
+              <input class="form-control" placeholder="yyyy-MM-dd" id="dateTo" formControlName="dateTo" [ngClass]="{ 'is-invalid': (submitted && form.controls.dateTo.errors) || form.hasError('dateValidation') }"
                      name="dp" ngbDatepicker #dateTo="ngbDatepicker">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar far fa-calendar-alt" (click)="dateTo.toggle()" type="button"></button>
@@ -149,38 +198,10 @@
           </div>
         </form>
       </div>
-      <!--<div>-->
-        <!--<label for="dateFrom">-->
-          <!--Date From-->
-        <!--</label>-->
-        <!--<input class="form-control" placeholder="yyyy-mm-dd" id="dateFrom"-->
-               <!--name="dp" [(ngModel)]="dateFrom" ngbDatepicker #d="ngbDatepicker">-->
-        <!--<div class="input-group-append">-->
-          <!--<button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>-->
-        <!--</div>-->
-        <!--&lt;!&ndash;<input class="form-control" id="dateFrom" type="text" ngbDatepicker #dFrom="ngbDatepicker" formControlName="dateFrom">&ndash;&gt;-->
-        <!--&lt;!&ndash;<button (click)="dFrom.toggle()">Toggle</button>&ndash;&gt;-->
-      <!--</div>-->
-      <!--<div>-->
-        <!--<input type="text" datepicker="" />-->
-        <!--&lt;!&ndash;<ngb-datepicker #dp (navigate)="date = $event.next"></ngb-datepicker>&ndash;&gt;-->
-      <!--</div>-->
-      <!--<div class="md-form">-->
-        <!--<input placeholder="Selected date" type="text" id="date-picker-example" class="form-control datepicker">-->
-        <!--<label for="date-picker-example">Try me...</label>-->
-      <!--</div>-->
-      <!--<div>-->
-        <!--<label for="dateTo">-->
-          <!--Date To-->
-        <!--</label>-->
-        <!--<input class="form-control" id="dateTo" type="text" ngbDatepicker #dTo="ngbDatepicker" formControlName="dateTo">-->
-        <!--<button (click)="dTo.toggle()">Toggle</button>-->
-      <!--</div>-->
-
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-danger" (click)="closeModal(modal)">Close</button>
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="submit" class="btn btn-primary" [disabled]="submitted && form.invalid">Save</button>
     </div>
   </form>
 </ng-template>

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Company} from "../domain/company/Company";
 import {CompanyService} from "../shared/company/company.service";
-import {FormBuilder} from "@angular/forms";
+import {AbstractControl, FormBuilder, ValidatorFn, Validators} from "@angular/forms";
 import {ModalDismissReasons, NgbModal, NgbModalOptions} from "@ng-bootstrap/ng-bootstrap";
 import {DatePipe} from "@angular/common";
+import {EnumConverterService} from "../shared/utils/enum-converter.service";
 
 @Component({
   selector: 'app-company',
@@ -13,51 +14,65 @@ import {DatePipe} from "@angular/common";
 export class CompanyComponent implements OnInit {
 
   companies: Array<Company>;
+  contactMethods: Array<string>;
   modalOptions: NgbModalOptions;
   private form;
   private closeResult: string;
-  dateFrom: any;
-  testDate;
+  private submitted: boolean = false;
+  dateFrom = new Date();
+  dateTo = new Date();
 
   constructor(private companyService: CompanyService,
               private formBuilder: FormBuilder,
               private modalService: NgbModal,
-              private datePipe: DatePipe) {
+              private datePipe: DatePipe,
+              private enumConverter: EnumConverterService) {
     this.form = this.formBuilder.group({
       id: null,
-      name: '',
-      country: '',
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      bossName: ['', [Validators.required, Validators.minLength(3), Validators.pattern("^[a-zA-Z]*$")]],
+      bossSecondName: ['', [Validators.minLength(3), Validators.pattern("^[a-zA-Z]*$")]],
+      bossSurname: ['', [Validators.required, Validators.minLength(3), Validators.pattern("^[a-zA-Z|-]*-*[a-zA-Z|-]*$")]],
+      country: ['', [Validators.required, Validators.minLength(3)]],
       city: '',
-      postCode:  '',
-      preferContactForm: null,
-      contactNumber: '',
-      mail: '',
-      dateFrom: new Date(),
-      dateTo: new Date(),
-    });
+      postCode: '',
+      preferredContactMethod: ['', Validators.required],
+      contactNumber: ['', Validators.pattern("[0-9]{3} [0-9]{3} [0-9]{3}")],
+      mail: ['', Validators.email],
+      dateFrom: ['', Validators.required],
+      dateTo: ['', Validators.required]
+    },  { validator: Validators.compose([
+        this.dateLessThan('dateFrom', 'dateTo', { 'dateValidation': true }),
+      ])});
   }
 
   ngOnInit() {
     this.getAll();
+    this.getContactForms();
+  }
+
+  private getContactForms() {
+    this.companyService.getContactMethods().subscribe(data => {
+      this.contactMethods = data;
+    })
   }
 
   onSubmit(companyData, modal) {
-    companyData.dateFrom = this.transformDate(companyData.dateFrom);
-    companyData.dateTo = this.transformDate(companyData.dateTo);
-    // companyData.dateFrom = companyData.dateFrom.toLocaleDateString();
-    // companyData.dateTo = companyData.dateTo.toLocaleDateString();
-    // console.log("KEYS = " + Object.keys(companyData.dateFrom));
-    // companyData.dateFrom = "2019-11-04";
-    // companyData.dateTo = "2019-11-15";
-    //  this.datePipe.transform(companyData.dateFrom, 'yyyy-MM-dd');
-    //  this.datePipe.transform(companyData.dateTo, 'yyyy-MM-dd');
-    this.companyService.save(companyData).subscribe(() => {
-      modal.close('Save click');
-      this.getAll();
-      this.form.reset();
-    }, error => {
-      console.log(error);
-    });
+    if (this.form.valid) {
+      companyData.dateFrom = this.transformDate(companyData.dateFrom);
+      companyData.dateTo = this.transformDate(companyData.dateTo);
+      this.companyService.save(companyData).subscribe(() => {
+        modal.close('Save click');
+        this.getAll();
+        this.resetForm();
+      }, error => {
+        console.log(error);
+      });
+    } else {
+      this.submitted = true;
+      return;
+    }
+
   }
 
   getAll() {
@@ -92,12 +107,17 @@ export class CompanyComponent implements OnInit {
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
 
-  closeModal(modal) {
+  resetForm() {
+    this.submitted = false;
     this.form.reset();
+  }
+
+  closeModal(modal) {
+    this.resetForm();
     modal.close('Close');
   }
 
@@ -105,4 +125,26 @@ export class CompanyComponent implements OnInit {
     let newDate = new Date(date.year + "-" + date.month + "-" + date.day);
     return this.datePipe.transform(newDate, 'yyyy-MM-dd');
   }
+
+  convertEnumToString(value: string) {
+    return this.enumConverter.convertEnumToString(value);
+  }
+
+  dateLessThan(dateField1: string, dateField2: string, validatorField: { [key: string]: boolean }): ValidatorFn {
+    return (c: AbstractControl): { [key: string]: boolean } | null => {
+      const date1 = c.get(dateField1).value;
+      const date2 = c.get(dateField2).value;
+
+      if (date1 && date2) {
+        let dateOne = new Date(this.transformDate(date1));
+        let dateTwo = new Date(this.transformDate(date2));
+
+        if ((dateOne !== null && dateTwo !== null) && dateOne > dateTwo) {
+          return validatorField;
+        }
+        return null;
+      }
+    };
+  }
+
 }

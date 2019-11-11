@@ -13,6 +13,7 @@ export class CompanyService {
 
   private listPath: string = 'http://localhost:60069/companies';
   private rootPath: string = 'http://localhost:60069/company';
+  private contactMethodsPath: string = 'http://localhost:60069/company/contactMethods';
 
   getAll(): Observable<any> {
     return this.http.get(this.listPath);
@@ -25,5 +26,9 @@ export class CompanyService {
   save(company: Company): Observable<any> {
     console.log("Save new company");
     return this.http.post(this.rootPath, company);
+  }
+
+  getContactMethods(): Observable<any> {
+    return this.http.get(this.contactMethodsPath);
   }
 }
